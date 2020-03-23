@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+      http://www.springframework.org/schema/mvc
+      http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+
+    <!--<bean id="/some.do" class="com.duan.myController.MyController"/>-->
+    <!--全局扫描controller对象 并创建-->
+    <context:component-scan base-package="com.duan.myController"/>
+   <!-- 中央调度器会执行此对象，进行要访问的字符串拼接-->
+    <bean  class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+        <property name="prefix" value="/WEB-INF/view/"/>
+        <property name="suffix" value=".jsp"/>
+     </bean>
+
+    <bean class="com.duan.handler.HandlerException"/>
+    <mvc:resources mapping="/js/**" location="/js/"/>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.duan.interceptor.InterceptorHandler"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    <!--声明注解驱动-->
+    <mvc:annotation-driven/>
+</beans>
